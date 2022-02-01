@@ -11,7 +11,7 @@ const router = express.Router();
 
 const middleware = require("../middleware")
 
-router.route("/").get((req,res)=> res.json("Your User Page"));
+router.route("/").get((req,res)=> res.json("Your User Page Got it"));
 
 router.route("/:username").get(middleware.checkToken , (req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
@@ -22,17 +22,17 @@ router.route("/:username").get(middleware.checkToken , (req, res) => {
       });
     });
   });
-  
+
 router.route("/checkusername/:username").get((req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
       if (err) return res.status(500).json({ msg: err });
       if (result !== null) {
         return res.json({
-          Status: true,
+          Status: true,//if found return true 
         });
       } else
         return res.json({
-          Status: false,
+          Status: false,// if not found return false
         });
     });
   });

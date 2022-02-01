@@ -25,6 +25,8 @@ app.use(express.json()); //decode our json data
 
 const userRouter = require("./routes/user");
 app.use("/user",userRouter);
+const profileRoute = require("./routes/profile");
+app.use("/profile", profileRoute);
 //middleware
 data = {
     msg: "Welcome on DevStack Blog App development YouTube video series",
@@ -35,5 +37,6 @@ data = {
   };
 app.route("/").get((req,res)=> res.json(data));
 
-app.listen(port , ()=>console.log("Your server is connected in the port" , port));
+app.listen(port , ()=>console.log("Your server is connected in the port" , port ));
+
 
