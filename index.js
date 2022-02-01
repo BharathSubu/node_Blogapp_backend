@@ -29,7 +29,7 @@ const profileRoute = require("./routes/profile");
 app.use("/profile", profileRoute);
 //middleware
 data = {
-    msg: "Welcome on DevStack Blog App development YouTube video series",
+    msg: "Welcome on Bharath Blog App development YouTube video series",
     info: "This is a root endpoint",
     Working: "Documentations of other endpoints will be release soon :)",
     request:
