@@ -9,6 +9,7 @@ const router = express.Router();
 // A Router instance is a complete middleware and routing system;
 //  for this reason, it is often referred to as a “mini-app”.
 
+
 const middleware = require("../middleware")
 
 router.route("/").get((req,res)=> res.json("Your User Page Got it"));
