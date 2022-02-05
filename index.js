@@ -5,9 +5,9 @@ const port = process.env.PORT || 3000
 
 //Creating a connection
 //mongo cloud
-mongoose.connect("mongodb+srv://bharathsubu:12345%40asd@cluster0.ndhcf.mongodb.net/Blog_App?retryWrites=true&w=majority" ,
+//mongoose.connect("mongodb+srv://bharathsubu:12345%40asd@cluster0.ndhcf.mongodb.net/Blog_App?retryWrites=true&w=majority" ,
 //mogo Local
-//mongoose.connect("mongodb://localhost:27017/myapp?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false" ,
+mongoose.connect("mongodb://localhost:27017/myapp?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false" ,
 { 
     useNewUrlParser: true,
     // useCreateIndex: true, depricated
@@ -22,7 +22,7 @@ connection.once("open",()=>{
 
 //middleware
 app.use(express.json()); //decode our json data
-
+app.use("/uploads",express.static("uploads"));
 const userRouter = require("./routes/user");
 app.use("/user",userRouter);
 const profileRoute = require("./routes/profile");
