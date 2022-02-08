@@ -76,7 +76,7 @@ router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
       else if (result == null) {
         return res.json({ status: false, username: req.decoded.username });
       } else {
-        return res.json({ status: true, username: req.decoded.username , data: result["img"] });
+        return res.status(200).json({ status: true, username: req.decoded.username , data: result["img"] });
       }
     });
   });
