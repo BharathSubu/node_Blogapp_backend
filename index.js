@@ -23,11 +23,17 @@ connection.once("open",()=>{
 //middleware
 app.use(express.json()); //decode our json data
 app.use("/uploads",express.static("uploads"));
+
 const userRouter = require("./routes/user");
 app.use("/user",userRouter);
+
 const profileRoute = require("./routes/profile");
 app.use("/profile", profileRoute);
+
+const blogRoute = require("./routes/blogpost");
+app.use("/blogpost", blogRoute);
 //middleware
+
 data = {
     msg: "Welcome on Bharath Blog App development YouTube video series",
     info: "This is a root endpoint",

@@ -3,7 +3,8 @@ const router = express.Router();
 const Profile = require("../model/profile.model");
 const middleware = require("../middleware");
 const multer = require("multer");
-const path = require("path");
+
+
 
 const storage = multer.diskStorage({
   //the path where its to be stored
@@ -75,7 +76,7 @@ router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
       else if (result == null) {
         return res.json({ status: false, username: req.decoded.username });
       } else {
-        return res.json({ status: true, username: req.decoded.username });
+        return res.json({ status: true, username: req.decoded.username , data: result["img"] });
       }
     });
   });
@@ -143,7 +144,33 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
     catch (error) { 
             profile = {};
     }     
-    
-  });
+  }),
+
+  //updating the fields in profile 
+  // router.route("/deletephoto").patch(middleware.checkToken, async (req, res) => {
+  //   let profile = {};
+  //   Profile.findOneAndUpdate({ username: req.decoded.username }, (err, result) => {
+  //        profile = result;
+  //         Profile.findOneAndUpdate(
+  //         { username: req.decoded.username },
+  //         {
+  //           $set: {
+  //             img:""
+  //           },
+  //         },
+  //         { new: true },
+  //         (err, result) => {
+  //           if (err) return res.json({ err: err });
+  //           if (result == null) return res.json({ data: [] });
+  //           else return res.json({ data: result });
+  //         }
+  //       );
+  //   }
+  //   )
+  // }),
+   
+ 
+  
+
 
   module.exports  = router;

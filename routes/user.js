@@ -1,5 +1,6 @@
 const express = require("express")
 const User = require("../model/user.model")
+const Profile = require("../model/profile.model");
 const config = require("../config");
 const jwt = require("jsonwebtoken");
 //java web token generated for every idividual user
@@ -8,7 +9,7 @@ const router = express.Router();
 // Use the express.Router class to create modular, mountable route handlers.
 // A Router instance is a complete middleware and routing system;
 //  for this reason, it is often referred to as a “mini-app”.
-
+const fs = require('fs');
 
 const middleware = require("../middleware")
 
@@ -42,8 +43,10 @@ router.route("/checkusername/:username").get((req, res) => {
     User.findOne({ email: req.params.mail }, (err, result) => {
       if (err) return res.status(500).json({ msg: err });
       if (result !== null) {
+        console.log(result["username"])
         return res.json({
-          Status: true,//if found return true 
+          Status: true,
+          username :result["username"] ,//if found return true 
         });
       } else
         return res.json({
@@ -94,23 +97,29 @@ router.route("/register").post((req, res) => {
       });
   });
   
-  router.route("/update/:username").patch(middleware.checkToken ,(req, res) => {
+  router.route("/update/:username").patch( (req, res) => {
     //using patch method to update password
-    console.log(req.params.username);
-    User.findOneAndUpdate( // to find the user and update the password from the collections
+    console.log(req.params.username,"function calling");
+
+
+       User.findOneAndUpdate( // to find the user and update the password from the collections
       { username: req.params.username },//user name remains the same
-      { $set: { password: req.body.password } // password is set from the postman body
-     },
+      { $set: { password: req.body.password },
+      // password is set from the postman body
+     },{ new: true },
       (err, result) => {
-        if (err) return res.status(500).json({ msg: err });
+      
+        if (err) return res.json({ msg: err });
+        else{
         const msg = {
           msg: "password successfully updated",
           username: req.params.username,
         };
-        return res.json(msg);
+        return res.status(200).json(msg);}
       }
     );
-  });
+
+   });
   
   router.route("/delete/:username").delete(middleware.checkToken ,(req, res) => {
     User.findOneAndDelete( //to find the user and delete it from the collections
@@ -122,6 +131,48 @@ router.route("/register").post((req, res) => {
       };
       return res.json(msg);
     });
+  });
+
+  router.route("/deletephoto").delete(middleware.checkToken, (req, res) => {
+    User.findOne(
+      { username: req.decoded.username }
+      ,
+      (err, result) => {
+        if (err) {console.log("deleted"); return res.json(err);}
+        else if (result) {
+          console.log(result);
+          const deleteFile = "uploads/"+result["username"]+".jpg";
+          console.log(deleteFile);
+          if (fs.existsSync(deleteFile)) {
+            fs.unlink(deleteFile, (err) => {
+                if (err) {
+                    console.log(err);
+                  }
+                console.log('Image deleted');
+                //making the changes in profile
+                Profile.findOneAndUpdate(
+                  { username: req.decoded.username },
+                  {
+                    $set: {
+                      img:""
+                    },
+                  },
+                  { new: true },
+                  (err, result) => {
+                    if (err) console.log("Error Updating");
+                    if (result == null)  console.log("Profile data not found");
+                    else  console.log("Img updated to Null");
+                  }
+                );
+                 })
+          }
+          console.log(result);
+          return res.status(200).json("Blog deleted");
+        }
+        else{
+        return res.json("Blog not deleted");}
+      }
+    );
   });
 
   module.exports = router
