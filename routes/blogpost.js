@@ -38,7 +38,7 @@ router
       { new: true },
       (err, result) => {
         if (err) return res.json(err);
-        return res.json(result);
+        return res.status(200).json(result);
       }
     );
   });
@@ -64,7 +64,7 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
 router.route("/getOwnBlog").get(middleware.checkToken, (req, res) => {
   BlogPost.find({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json(err);
-    return res.json({ data: result });
+    return res.status(200).json({ data: result });
   });
 });
 
@@ -73,7 +73,7 @@ router.route("/getOtherBlog").get(middleware.checkToken, (req, res) => {
   //$ne(not equalto) returns data expect the blog under username 
   BlogPost.find({ username: { $ne: req.decoded.username } }, (err, result) => {
     if (err) return res.json(err);
-    return res.json({ data: result });
+    return res.status(200).json({ data: result });
   });
 });
 
