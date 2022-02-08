@@ -35,7 +35,7 @@ app.use("/blogpost", blogRoute);
 //middleware
 
 data = {
-    msg: "Welcome on Bharath Blog App development YouTube video series",
+    msg: "Welcome on Bharath Blog App development",
     info: "This is a root endpoint",
     Working: "Documentations of other endpoints will be release soon :)",
     request:
