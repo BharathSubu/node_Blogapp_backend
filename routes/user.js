@@ -13,6 +13,8 @@ const fs = require('fs');
 
 const middleware = require("../middleware")
 
+
+
 router.route("/").get((req,res)=> res.json("Your User Page Got it"));
 
 router.route("/:username").get(middleware.checkToken , (req, res) => {
@@ -24,6 +26,35 @@ router.route("/:username").get(middleware.checkToken , (req, res) => {
       });
     });
   });
+
+router.route("/getusername/checkusername").get(middleware.checkToken, (req,res)=>{
+  let token = req.headers["authorization"];
+  console.log(token);
+  token = token.slice(7, token.length);
+  if (token) {
+    jwt.verify(token, config.key, (err, decoded) => {
+      if (err) {
+        return res.json({
+          status: false,
+          username: "token is invalid",
+        });
+      } else {
+        req.decoded = decoded;
+        console.log( "username",req.decoded["username"]);
+        return res.status(200).json({
+          status: true,
+          username: req.decoded["username"],
+        });
+      }
+    });
+  } else {
+    return res.status(400).json({
+      status: false,
+      username: "Token is not provided",
+    });
+  }
+
+})
 
 router.route("/checkusername/:username").get((req, res) => {
     User.findOne({ username: req.params.username }, (err, result) => {
