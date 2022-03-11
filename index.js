@@ -4,9 +4,10 @@ const app = express()
 const port = process.env.PORT || 3000
 
 //Creating a connection
-
+//mongo cloud
+//mongoose.connect("mongodb+srv://bharathsubu:12345%40asd@cluster0.ndhcf.mongodb.net/Blog_App?retryWrites=true&w=majority" ,
 //mogo Local
-mongoose.connect("mongodb://localhost:27017/myapp?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false" ,
+mongoose.connect("mongodb://localhost:27017/favicon?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false" ,
 { 
     useNewUrlParser: true,
     // useCreateIndex: true, depricated
@@ -29,8 +30,8 @@ app.use("/user",userRouter);
 const profileRoute = require("./routes/profile");
 app.use("/profile", profileRoute);
 
-const blogRoute = require("./routes/blogpost");
-app.use("/blogpost", blogRoute);
+const complaintRoute = require("./routes/complaint");
+app.use("/complaint", complaintRoute);
 //middleware
 
 data = {
