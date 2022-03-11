@@ -37,9 +37,8 @@ app.use("/complaint", complaintRoute);
 data = {
     msg: "Welcome on Bharath Blog App development",
     info: "This is a root endpoint",
-    Working: "Documentations of other endpoints will be release soon :)",
     request:
-      "Hey if you did'nt subscribed myy YouTube channle please subscribe it",
+      "Hey Follow by linkedin @bharathsubu",
   };
 app.route("/").get((req,res)=> res.json(data));
 
